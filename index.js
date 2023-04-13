@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http');
+const { type } = require('os');
 const url = require('url');
 
 //Blocking, Sync
@@ -29,7 +30,19 @@ const url = require('url');
 
 //SERVER
 const server = http.createServer((req, res) => {
-  res.end('Hello from the SERVER...!!!');
+  const pathName = req.url;
+
+  if (pathName === '/' || pathName === '/overview') {
+    res.end('This is OVERVIEW');
+  } else if (pathName === '/product') {
+    res.end('This is PRODUCT');
+  } else {
+    res.writeHead(404, {
+      'Content-type': 'text/html',
+      'my-own-header': 'holy smokes',
+    });
+    res.end('<h1> PAGE NOT FOUND </h1>');
+  }
 });
 
 server.listen(8000, '127.0.0.1', () => {
