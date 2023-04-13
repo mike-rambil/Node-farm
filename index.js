@@ -28,6 +28,14 @@ const url = require('url');
 //   });
 // });
 
+const data = fs.readFileSync(
+  `${__dirname}/dev-data/data.json`,
+  'utf-8',
+  (err, data) => {
+    const dataObject = JSON.parse(data);
+  }
+);
+
 //SERVER
 const server = http.createServer((req, res) => {
   const pathName = req.url;
@@ -36,6 +44,8 @@ const server = http.createServer((req, res) => {
     res.end('This is OVERVIEW');
   } else if (pathName === '/product') {
     res.end('This is PRODUCT');
+  } else if (pathName === '/api') {
+    res.end(data);
   } else {
     res.writeHead(404, {
       'Content-type': 'text/html',
