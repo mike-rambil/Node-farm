@@ -4,14 +4,14 @@
   "description": "Learning node.js",
   "main": "index.js",
   "scripts": {
-    "start": "lite-server",
+    "start": "",
     "dev": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lgope/node-farm.git"
   },
-  "author": "Lakshman",
+  "author": "Micheal Palliparambil",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lgope/node-farm/issues"
