@@ -37,41 +37,54 @@ const replaceTemplate = (temp, product) => {
   output = output.replace(/{%QUANTITY%}/g, product.quantity);
   output = output.replace(/{%DESCRIPTION%}/g, product.description);
   output = output.replace(/{%ID%}/g, product.id);
-  
-  if(!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+
+  if (!product.organic)
+    output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
   return output;
-}
+};
 
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
-  'utf-8');
+  'utf-8'
+);
 const tempCard = fs.readFileSync(
   `${__dirname}/templates/template-card.html`,
-  'utf-8');
+  'utf-8'
+);
 const tempProduct = fs.readFileSync(
   `${__dirname}/templates/template-product.html`,
-  'utf-8');
+  'utf-8'
+);
 
-const data = fs.readFileSync(
-  `${__dirname}/dev-data/data.json`,
-  'utf-8');
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 
-  const dataObj = JSON.parse(data);
+const dataObj = JSON.parse(data);
 
 //SERVER
 const server = http.createServer((req, res) => {
-  const pathName = req.url;
+  const pathname = req.url;
 
-  if (pathName === '/' || pathName === '/overview') {
-    
-    const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
+  //Overview Page
+  if (pathname === '/' || pathname === '/overview') {
+    const cardsHtml = dataObj
+      .map((el) => replaceTemplate(tempCard, el))
+      .join('');
     const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
     res.end(output);
-  } else if (pathName === '/product') {
+  }
+
+  //Product Page
+  else if (pathname === '/product') {
     res.end('This is PRODUCT');
-  } else if (pathName === '/api') {
+  }
+
+  //Api Page
+  else if (pathname === '/api') {
     res.end(data);
-  } else {
+  }
+
+  //404 Page
+  else {
     res.writeHead(404, {
       'Content-type': 'text/html',
       'my-own-header': 'holy smokes',
@@ -80,6 +93,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
+//Server Listening....
 server.listen(8000, '127.0.0.1', () => {
   console.log('Listening on port 8000');
 });
