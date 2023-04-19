@@ -3,6 +3,8 @@ const http = require('http');
 const { type } = require('os');
 const url = require('url');
 
+const replaceTemplate = require('./modules/replaceTemplate');
+
 //Blocking, Sync
 
 // const textIn = fs.readFileSync('./txt/input.txt', 'utf-8');
@@ -28,21 +30,6 @@ const url = require('url');
 //   });
 // });
 
-const replaceTemplate = (temp, product) => {
-  let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
-  output = output.replace(/{%IMAGE%}/g, product.image);
-  output = output.replace(/{%PRICE%}/g, product.price);
-  output = output.replace(/{%FROM%}/g, product.from);
-  output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
-  output = output.replace(/{%QUANTITY%}/g, product.quantity);
-  output = output.replace(/{%DESCRIPTION%}/g, product.description);
-  output = output.replace(/{%ID%}/g, product.id);
-
-  if (!product.organic)
-    output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
-  return output;
-};
-
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
   'utf-8'
@@ -62,7 +49,7 @@ const dataObj = JSON.parse(data);
 
 //SERVER
 const server = http.createServer((req, res) => {
-  const pathname = req.url;
+  const { query, pathname } = url.parse(req.url, true);
 
   //Overview Page
   if (pathname === '/' || pathname === '/overview') {
@@ -75,7 +62,10 @@ const server = http.createServer((req, res) => {
 
   //Product Page
   else if (pathname === '/product') {
-    res.end('This is PRODUCT');
+    let productid = dataObj[query.id];
+
+    const output = replaceTemplate(tempProduct, productid);
+    res.end(output);
   }
 
   //Api Page
