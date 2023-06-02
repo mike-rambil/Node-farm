@@ -5,8 +5,8 @@ const url = require('url');
 
 const replaceTemplate = require('./modules/replaceTemplate');
 
-// ----------------Config.env Path---------------------
-dotenv.config({ path: './config.env' });
+require('dotenv').config({ path: './config.env' });
+
 
 //Blocking, Sync
 
@@ -87,11 +87,8 @@ const server = http.createServer((req, res) => {
 });
 
 
-const port = process.env.PORT;
+const port = process.env.PORT
 //Server Listening....
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App running on port ${port} ....`);
+server.listen(port ,() => {
+  console.log('Listening on port 8000(ignore)');
 });
-
-
