@@ -7,16 +7,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lgope/node-farm.git"
-  },
   "author": "Micheal Palliparambil",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lgope/node-farm/issues"
-  },
-  "homepage": "https://github.com/lgope/node-farm#readme",
+  "homepage": "https://nodefarm.herokuapp.com/",
   "devDependencies": {
     "nodemon": "^2.0.22"
   },
