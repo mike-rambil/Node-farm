@@ -5,6 +5,9 @@ const url = require('url');
 
 const replaceTemplate = require('./modules/replaceTemplate');
 
+// ----------------Config.env Path---------------------
+dotenv.config({ path: './config.env' });
+
 //Blocking, Sync
 
 // const textIn = fs.readFileSync('./txt/input.txt', 'utf-8');
@@ -83,7 +86,12 @@ const server = http.createServer((req, res) => {
   }
 });
 
+
+const port = process.env.PORT;
 //Server Listening....
-server.listen(8000, '127.0.0.1', () => {
-  console.log('Listening on port 8000');
+app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App running on port ${port} ....`);
 });
+
+
